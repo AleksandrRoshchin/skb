@@ -9,12 +9,12 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/task2A',(req, res) => {
+app.get('/task2A', (req, res) => {
   const sum = (+req.query.a || 0) + (+req.query.b || 0);
   res.send(sum.toString());
 });
 
-app.get('/task2B',(req, res) => {
+app.get('/task2B', (req, res) => {
   const fullname = req.query.fullname;
   const re = /^.*[\d_/-].*$/;
   const arr = fullname.split(' ');
@@ -28,11 +28,28 @@ app.get('/task2B',(req, res) => {
   } else if (arr.length === 1) {
     res.send(arr[0]);
   }
-
-
-
-
 });
+
+app.get('/task2C', (req, res) => {
+  const username = req.query.username;
+  let result = username;
+  if (username.indexOf('/') >= 0) {
+    const pattern = /\/*([\w\d?=-]*)$/gi;
+    const match = pattern.exec(username);
+    result = match[1];
+  }
+  if (result.indexOf('?') >=0) {
+    result = result.substring(0, result.indexOf('?'));
+  }
+  if (result.indexOf('/') >=0) {
+    result = result.substring(0, result.indexOf('/'));
+  }
+  if (result.indexOf('@') !== 0) {
+    result = '@' + result;
+  }
+  res.send(result);
+});
+
 
 app.listen(3000, () => {
   console.log('Your app listening on port 3000!');
